@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI 大神排行榜 · Y3 Resource Hub</title>
+  <link rel="icon" href="https://gitee.com/favicon.ico" />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #11161b;
+      --line: #1f2630;
+      --text: #e6edf3;
+      --muted: #9aa6b2;
+      --brand: #4f8cff;
+      --brand-2: #7aa2ff;
+      --code: #0d1117;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    a { color: var(--brand-2); text-decoration: none; }
+    a:hover { color: var(--brand); }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 64px; }
+    h1 { font-size: 32px; margin: 0 0 8px; letter-spacing: -0.01em; }
+    .sub { color: var(--muted); margin: 0 0 28px; font-size: 14.5px; }
+    .sub a { color: var(--brand-2); }
+
+    .grid { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+    .row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+    }
+    .row:hover { border-color: var(--brand); }
+    .rank { font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; font-size: 16px; }
+    .row.top1 .rank { color: #f5c84c; }
+    .row.top2 .rank { color: #c0c8d2; }
+    .row.top3 .rank { color: #c98a5b; }
+    .user { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .user img { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); }
+    .name { font-weight: 600; color: var(--text); }
+    .profile { color: var(--muted); font-size: 12.5px; }
+    .count { color: var(--brand-2); font-variant-numeric: tabular-nums; font-weight: 700; font-size: 18px; }
+    .empty { color: var(--muted); padding: 24px; text-align: center; border: 1px dashed var(--line); border-radius: 12px; }
+
+    .bar { height: 6px; background: var(--line); border-radius: 4px; margin-top: 6px; overflow: hidden; }
+    .bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+
+    .foot {
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: space-between;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin: 0 0 16px;
+    }
+    .toolbar input, .toolbar select {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .toolbar .pill {
+      color: var(--muted);
+      font-size: 12.5px;
+      border: 1px solid var(--line);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>🏆 AI 大神排行榜</h1>
+    <p class="sub">
+      数据源：<a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors</a>
+      · 排名依据：贡献次数（commits + pull requests + issues）
+      · <a href="./">← 返回入口页</a>
+    </p>
+
+    <div class="toolbar">
+      <input id="q" placeholder="按昵名筛选…" />
+      <span class="pill" id="stat">加载中…</span>
+    </div>
+
+    <ul class="grid" id="lb">
+      <li class="empty">正在加载 GitHub 贡献数据…</li>
+    </ul>
+
+    <div class="foot">
+      <span>本榜单自动刷新，不修改任何数据</span>
+      <span>API: github.com/ugcgamerr/y3-resource-hub/contributors</span>
+    </div>
+  </div>
+
+  <script>
+    (async function () {
+      const ul = document.getElementById('lb');
+      const stat = document.getElementById('stat');
+      const q = document.getElementById('q');
+      const repo = 'ugcgamerr/y3-resource-hub';
+
+      let cache = [];
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contributors?per_page=100`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        cache = await res.json();
+        if (!Array.isArray(cache) || cache.length === 0) {
+          ul.innerHTML = '<li class="empty">暂无贡献数据 · 欢迎 <a href="https://github.com/ugcgamerr/y3-resource-hub">第一个投稿</a></li>';
+          stat.textContent = '共 0 位贡献者';
+          return;
+        }
+        const max = Math.max(...cache.map(c => c.contributions));
+        const total = cache.reduce((s, c) => s + c.contributions, 0);
+        stat.textContent = `共 ${cache.length} 位贡献者 · 累计 ${total} 次 · 榜首 ${max} 次`;
+        render(cache, max);
+        q.addEventListener('input', () => render(cache.filter(c => c.login.toLowerCase().includes(q.value.toLowerCase())), max));
+      } catch (err) {
+        ul.innerHTML = '<li class="empty">加载失败，请稍后再试。<br/>你可以去 <a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors 完整图表</a> 查看。</li>';
+        stat.textContent = '加载失败';
+      }
+
+      function render(list, max) {
+        if (list.length === 0) {
+          ul.innerHTML = '<li class="empty">没有匹配的贡献者</li>';
+          return;
+        }
+        ul.innerHTML = list.map((c) => {
+          const rank = cache.indexOf(c);
+          const cls = rank === 0 ? 'top1' : (rank === 1 ? 'top2' : (rank === 2 ? 'top3' : ''));
+          const pct = Math.round((c.contributions / max) * 100);
+          return `
+            <li class="row ${cls}">
+              <div class="rank">#${rank + 1}</div>
+              <div>
+                <div class="user">
+                  <img src="${c.avatar_url}" alt="${esc(c.login)}" />
+                  <div>
+                    <div class="name"><a href="${c.html_url}" target="_blank" rel="noopener">${esc(c.login)}</a></div>
+                    <div class="profile">${esc(c.type || 'User')}</div>
+                  </div>
+                </div>
+                <div class="bar"><span style="width:${pct}%"></span></div>
+              </div>
+              <div class="count">${c.contributions}</div>
+            </li>
+          `;
+        }).join('');
+      }
+    })();
+
+    function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  </script>
+</body>
+</html>

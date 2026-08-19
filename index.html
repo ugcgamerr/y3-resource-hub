@@ -36,6 +36,7 @@
     }
     h1.title { font-size: 44px; line-height: 1.15; margin: 18px 0 10px; letter-spacing: -0.02em; }
     p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0 auto; max-width: 720px; }
+    p.lead b { color: var(--text); }
 
     .grid {
       display: grid;
@@ -78,19 +79,34 @@
     ol.steps-list { margin: 0; padding-left: 18px; color: var(--text); line-height: 1.7; }
     ol.steps-list li { margin-bottom: 6px; }
 
-    section.alt { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
-    @media (max-width: 720px) { section.alt { grid-template-columns: 1fr; } }
-    .alt a {
-      display: block;
-      background: var(--panel);
+    /* 排行榜 */
+    section.lb { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-top: 18px; }
+    section.lb h3 { margin: 0 0 4px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+    section.lb .lb-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+    .lb-list { list-style: none; padding: 0; margin: 0; }
+    .lb-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 14px 16px;
-      color: var(--text);
+      background: var(--code);
+      margin-bottom: 8px;
     }
-    .alt a:hover { border-color: var(--brand); }
-    .alt .lbl { color: var(--muted); font-size: 12.5px; }
-    .alt .val { font-weight: 600; margin-top: 2px; }
+    .lb-row:hover { border-color: var(--brand); }
+    .lb-rank { font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+    .lb-row:nth-child(1) .lb-rank { color: #f5c84c; }
+    .lb-row:nth-child(2) .lb-rank { color: #c0c8d2; }
+    .lb-row:nth-child(3) .lb-rank { color: #c98a5b; }
+    .lb-user { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .lb-user img { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); }
+    .lb-name { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    .lb-count { color: var(--brand-2); font-variant-numeric: tabular-nums; font-weight: 600; }
+    .lb-empty { color: var(--muted); font-size: 13.5px; padding: 14px 0; }
+    .lb-foot { margin-top: 12px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; }
+    .lb-foot a { color: var(--brand-2); }
 
     footer.foot {
       margin-top: 36px;
@@ -112,8 +128,7 @@
       <span class="pill">面向 Y3 编辑器 / AI 开发者的资源社区</span>
       <h1 class="title">Y3 Resource Hub</h1>
       <p class="lead">
-        你的目标只有一个：<b>让作者省事地分享，让读者省事地找到</b>。<br />
-        不会 Git 也能投稿：点 <code>社区 Skill</code>，填表就行。
+        <b>社区目标：AI 做图不再是梦想</b>
       </p>
     </header>
 
@@ -121,7 +136,7 @@
       <div class="card">
         <h2>📘 AI 开发者文档</h2>
         <p>编辑器接入、AI 接入、地图开发流程、Skill 编写规范、踩坑记录——开发 Y3 AI 项目时需要的全部文档都在这里。</p>
-        <a class="cta" href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/README.md" target="_blank" rel="noopener">查看文档 →</a>
+        <a class="cta" href="https://163.com/y3/docs/guides/Editor/AI_Development/AssistantDevelopment" target="_blank" rel="noopener">查看文档 →</a>
         <div class="meta">面向开发者 · 持续更新</div>
       </div>
       <div class="card">
@@ -141,23 +156,16 @@
       </ol>
     </section>
 
-    <section class="alt">
-      <a href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/INDEX.md" target="_blank" rel="noopener">
-        <div class="lbl">📑 索引页</div>
-        <div class="val">README 索引（按分类整理）</div>
-      </a>
-      <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">
-        <div class="lbl">📮 投稿</div>
-        <div class="val">填表投稿（Issue 表单）</div>
-      </a>
-      <a href="https://github.com/kky3rpg/y3-resource-hub" target="_blank" rel="noopener">
-        <div class="lbl">🌐 镜像</div>
-        <div class="val">GitHub 镜像仓库（如有）</div>
-      </a>
-      <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/投稿规则" target="_blank" rel="noopener">
-        <div class="lbl">📘 规则</div>
-        <div class="val">Wiki 投稿规则页</div>
-      </a>
+    <section class="lb" id="leaderboard">
+      <h3>🏆 AI 大神排行榜</h3>
+      <div class="lb-sub">基于本项目（GitHub）的贡献量自动排名 · Top 10</div>
+      <ul class="lb-list" id="lb-list">
+        <li class="lb-empty">正在加载 GitHub 贡献数据…</li>
+      </ul>
+      <div class="lb-foot">
+        <span>数据来源：<a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors</a></span>
+        <a href="leaderboard.html" target="_blank" rel="noopener">查看完整榜单 →</a>
+      </div>
     </section>
 
     <footer class="foot">
@@ -165,5 +173,36 @@
       <div>反馈：新建 Issue / Wiki 评论</div>
     </footer>
   </div>
+
+  <script>
+    // 轻量 GitHub Contributors API
+    (async function () {
+      const list = document.getElementById('lb-list');
+      if (!list) return;
+      const repo = 'ugcgamerr/y3-resource-hub';
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}/contributors?per_page=10`);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          list.innerHTML = '<li class="lb-empty">暂无贡献数据，邀请大家来投稿 → <a href="https://github.com/ugcgamerr/y3-resource-hub">参与贡献</a></li>';
+          return;
+        }
+        list.innerHTML = data.map((c, i) => `
+          <li class="lb-row">
+            <div class="lb-rank">#${i + 1}</div>
+            <div class="lb-user">
+              <img src="${c.avatar_url}" alt="${escapeHtml(c.login)}" />
+              <span class="lb-name">${escapeHtml(c.login)}</span>
+            </div>
+            <div class="lb-count">${c.contributions} 次</div>
+          </li>
+        `).join('');
+      } catch (err) {
+        list.innerHTML = '<li class="lb-empty">加载失败，请稍后再试。<br/>你可以直接看 <a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors 完整图表</a>。</li>';
+      }
+    })();
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  </script>
 </body>
 </html>
