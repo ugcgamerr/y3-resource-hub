@@ -1,0 +1,17 @@
+## 系统/编辑器
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Node / Python（如果以后需要）
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+
+## 临时文件
+*.log
+*.tmp
+

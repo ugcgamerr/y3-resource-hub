@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: 资源索引（先逛逛）
+    url: https://gitee.com/kky3rpg/y3-resource-hub/blob/main/INDEX.md
+    about: 如果你是来找资源的，先看 INDEX.md（仓库里也能直接打开）
+  - name: 投稿/收录规则
+    url: https://gitee.com/kky3rpg/y3-resource-hub/blob/main/CONTRIBUTING.md
+    about: 请先阅读 CONTRIBUTING.md，按要求填表，维护者才能更快收录

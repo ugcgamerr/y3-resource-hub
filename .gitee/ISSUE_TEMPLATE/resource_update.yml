@@ -1,0 +1,58 @@
+name: 资源更新/修正（表单）
+description: 已收录资源的版本更新、链接失效修复、补充说明等
+title: "[资源更新]："
+labels: ["resource-update"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        用于已收录资源的更新。请尽量提供“条目链接或路径”，维护者才能快速定位。
+
+  - type: input
+    id: entry
+    attributes:
+      label: 条目链接或路径（必填）
+      description: 例如：entries/skills/terrain_exporter 或对应条目页面链接
+      placeholder: entries/skills/xxx
+    validations:
+      required: true
+
+  - type: textarea
+    id: change
+    attributes:
+      label: 你希望更新什么（必填）
+      description: 描述要修改的点：新增功能、修正错误、替换链接、补充教程等
+      placeholder: |
+        - 需要把下载链接换成：https://...
+        - 新版本增加了：...
+        - 原步骤第 2 步不对，应该是：...
+    validations:
+      required: true
+
+  - type: textarea
+    id: new_links
+    attributes:
+      label: 新的链接/附件（如有）
+      placeholder: |
+        - 新仓库：https://...
+        - 新下载：https://...
+        - 新演示视频：https://...
+    validations:
+      required: false
+
+  - type: input
+    id: compat
+    attributes:
+      label: 新版本适配信息（可选）
+      placeholder: 例如：Y3 v1.0；需要 Python 3.11
+    validations:
+      required: false
+
+  - type: input
+    id: author
+    attributes:
+      label: 你的署名（可选）
+      placeholder: 例如：小明
+    validations:
+      required: false
+
