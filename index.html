@@ -3,9 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Y3 Resource Hub · 社区入口</title>
-  <meta name="description" content="面向 Y3 编辑器 / AI 开发的资源社区入口：AI 开发者文档、社区 Skill / MCP / 教程。" />
-  <link rel="icon" href="https://gitee.com/favicon.ico" />
+  <title>Y3 Resource Hub</title>
+  <meta name="description" content="Y3 Resource Hub · Y3 编辑器 / AI 开发者的资源社区。社区目标：AI 做图不再是梦想。" />
   <style>
     :root {
       --bg: #0b0d10;
@@ -14,102 +13,114 @@
       --text: #e6edf3;
       --muted: #9aa6b2;
       --brand: #4f8cff;
-      --brand-2: #7aa2ff;
       --code: #0d1117;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
-    a { color: var(--brand-2); text-decoration: none; }
-    a:hover { color: var(--brand); }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    .wrap { max-width: 980px; margin: 0 auto; padding: 56px 24px 96px; }
+    .wrap { max-width: 820px; margin: 0 auto; padding: 88px 24px 80px; }
 
-    header.hero { text-align: center; padding: 32px 0 40px; }
     .pill {
       display: inline-block;
-      padding: 6px 12px;
+      padding: 5px 12px;
       border: 1px solid var(--line);
       border-radius: 999px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12.5px;
       background: var(--panel);
     }
-    h1.title { font-size: 44px; line-height: 1.15; margin: 18px 0 10px; letter-spacing: -0.02em; }
-    p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0 auto; max-width: 720px; }
-    p.lead b { color: var(--text); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin: 36px 0 28px;
+    h1 { font-size: 44px; line-height: 1.15; margin: 22px 0 14px; letter-spacing: -0.02em; font-weight: 700; }
+    .sub {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 0 0 10px;
     }
-    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+    .lead {
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.6;
+      margin: 36px 0 0;
+      max-width: 560px;
+    }
 
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 22px 22px 20px;
-      transition: transform .15s ease, border-color .15s ease;
+    .actions {
       display: flex;
-      flex-direction: column;
+      gap: 10px;
+      margin: 36px 0 0;
+      flex-wrap: wrap;
     }
-    .card:hover { transform: translateY(-2px); border-color: var(--brand); }
-    .card h2 { margin: 0 0 8px; font-size: 22px; letter-spacing: -0.01em; }
-    .card p { color: var(--muted); margin: 0 0 16px; font-size: 14.5px; line-height: 1.6; }
-    .card .cta {
-      margin-top: auto;
-      align-self: flex-start;
+    .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--brand);
-      color: #fff;
-      padding: 10px 14px;
+      padding: 11px 18px;
       border-radius: 10px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 15px;
+      transition: transform .12s ease, background .12s ease;
     }
-    .card .cta:hover { background: #3f7af0; color: #fff; }
-    .card .meta { color: var(--muted); font-size: 12.5px; margin-top: 10px; }
-
-    section.steps { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-top: 18px; }
-    section.steps h3 { margin: 0 0 12px; font-size: 18px; }
-    ol.steps-list { margin: 0; padding-left: 18px; color: var(--text); line-height: 1.7; }
-    ol.steps-list li { margin-bottom: 6px; }
-
-    /* 排行榜 */
-    section.lb { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-top: 18px; }
-    section.lb h3 { margin: 0 0 4px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
-    section.lb .lb-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
-    .lb-list { list-style: none; padding: 0; margin: 0; }
-    .lb-row {
-      display: grid;
-      grid-template-columns: 36px 1fr auto;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 10px;
+    .btn-primary {
+      background: var(--brand);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #3f7af0; text-decoration: none; }
+    .btn-secondary {
+      background: var(--panel);
+      color: var(--text);
       border: 1px solid var(--line);
-      background: var(--code);
-      margin-bottom: 8px;
     }
-    .lb-row:hover { border-color: var(--brand); }
-    .lb-rank { font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
-    .lb-row:nth-child(1) .lb-rank { color: #f5c84c; }
-    .lb-row:nth-child(2) .lb-rank { color: #c0c8d2; }
-    .lb-row:nth-child(3) .lb-rank { color: #c98a5b; }
-    .lb-user { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .lb-user img { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line); }
-    .lb-name { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
-    .lb-count { color: var(--brand-2); font-variant-numeric: tabular-nums; font-weight: 600; }
-    .lb-empty { color: var(--muted); font-size: 13.5px; padding: 14px 0; }
-    .lb-foot { margin-top: 12px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 13px; }
-    .lb-foot a { color: var(--brand-2); }
+    .btn-secondary:hover { border-color: var(--brand); text-decoration: none; }
+
+    section.lb {
+      margin-top: 80px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+    .lb-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .lb-title { font-size: 18px; font-weight: 600; }
+    .lb-meta { font-size: 13px; color: var(--muted); }
+    .lb-meta a { color: var(--muted); }
+
+    .lb-table {
+      display: table;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .lb-row {
+      display: table-row;
+    }
+    .lb-row > * {
+      display: table-cell;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    .lb-row:hover > * { background: var(--panel); }
+    .lb-rank { width: 44px; color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 600; }
+    .lb-row.top1 .lb-rank { color: #f5c84c; }
+    .lb-row.top2 .lb-rank { color: #c0c8d2; }
+    .lb-row.top3 .lb-rank { color: #c98a5b; }
+    .lb-name { font-weight: 600; }
+    .lb-name a { color: var(--text); }
+    .lb-name a:hover { color: var(--brand); }
+    .lb-handle { color: var(--muted); font-size: 13px; margin-left: 6px; }
+    .lb-bar-cell { width: 100%; padding-right: 16px; }
+    .lb-bar { height: 6px; background: var(--line); border-radius: 4px; overflow: hidden; }
+    .lb-bar > span { display: block; height: 100%; background: var(--brand); }
+    .lb-score { width: 110px; text-align: right; color: var(--brand); font-variant-numeric: tabular-nums; font-weight: 600; }
+    .lb-empty { padding: 22px 0; color: var(--muted); font-size: 14px; }
 
     footer.foot {
-      margin-top: 36px;
+      margin-top: 56px;
       padding-top: 18px;
       border-top: 1px solid var(--line);
       color: var(--muted);
@@ -119,75 +130,64 @@
       gap: 14px;
       justify-content: space-between;
     }
-    code { background: var(--code); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); font-size: 12.5px; }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 56px 18px 56px; }
+      h1 { font-size: 32px; }
+      .sub { font-size: 16px; }
+      .lb-table, .lb-row, .lb-row > * { display: block; }
+      .lb-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+      .lb-bar-cell, .lb-score { padding: 6px 0 0; }
+      .lb-score { text-align: left; }
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header class="hero">
-      <span class="pill">面向 Y3 编辑器 / AI 开发者的资源社区</span>
-      <h1 class="title">Y3 Resource Hub</h1>
-      <p class="lead">
-        <b>社区目标：AI 做图不再是梦想</b>
-      </p>
-    </header>
+    <span class="pill">资源社区 · Y3 / AI</span>
+    <h1>Y3 Resource Hub</h1>
+    <p class="sub">社区目标：AI 做图不再是梦想</p>
 
-    <div class="grid">
-      <div class="card">
-        <h2>📘 AI 开发者文档</h2>
-        <p>编辑器接入、AI 接入、地图开发流程、Skill 编写规范、踩坑记录——开发 Y3 AI 项目时需要的全部文档都在这里。</p>
-        <a class="cta" href="https://163.com/y3/docs/guides/Editor/AI_Development/AssistantDevelopment" target="_blank" rel="noopener">查看文档 →</a>
-        <div class="meta">面向开发者 · 持续更新</div>
-      </div>
-      <div class="card">
-        <h2>🧩 社区 Skill</h2>
-        <p>浏览社区贡献的 Skill / MCP / 教程 / 地图案例。找不到想要的？点 “我要投稿”，不用学 Git。</p>
-        <a class="cta" href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">进入社区资源中心 →</a>
-        <div class="meta">收录即上架 · 小白友好</div>
-      </div>
+    <div class="actions">
+      <a class="btn btn-primary" href="https://163.com/y3/docs/guides/Editor/AI_Development/AssistantDevelopment" target="_blank" rel="noopener">AI 开发者文档 →</a>
+      <a class="btn btn-secondary" href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">社区 Skill →</a>
     </div>
 
-    <section class="steps">
-      <h3>30 秒完成第一次投稿</h3>
-      <ol class="steps-list">
-        <li>先看 <a href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">投稿规则</a>（30 秒就能看完）。</li>
-        <li>打开 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">Issue 投稿入口</a>，按表单填 6 项即可。</li>
-        <li>维护者审核通过后会自动收录到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">资源中心</a>，并给你回复。</li>
-      </ol>
-    </section>
+    <p class="lead">
+      让作者省事地分享，让读者省事地找到。
+      <br />
+      不会 Git 也能投稿：点 <code style="background:var(--code);padding:2px 6px;border-radius:4px;border:1px solid var(--line);font-size:13px;">社区 Skill</code> 即可。
+    </p>
 
-    <section class="lb" id="leaderboard">
-      <h3>🏆 AI 大神排行榜</h3>
-      <div class="lb-sub">基于 Gitee Issues + PR 贡献评分 · Top 10</div>
-      <ul class="lb-list" id="lb-list">
-        <li class="lb-empty">正在加载 Gitee 贡献数据…</li>
-      </ul>
-      <div class="lb-foot">
-        <span>数据来源：<a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> + <a href="https://gitee.com/kky3rpg/y3-resource-hub/pulls" target="_blank" rel="noopener">PRs</a></span>
-        <a href="leaderboard.html" target="_blank" rel="noopener">查看完整榜单 →</a>
+    <section class="lb">
+      <div class="lb-head">
+        <div class="lb-title">🏆 AI 大神 · Top 10</div>
+        <div class="lb-meta">Gitee Issues / PR 贡献评分 · <a href="leaderboard.html">完整榜单 →</a></div>
+      </div>
+      <div class="lb-table" id="lb-table">
+        <div class="lb-empty">正在加载贡献数据…</div>
       </div>
     </section>
 
     <footer class="foot">
       <div>Y3 Resource Hub · 社区驱动</div>
-      <div>反馈：新建 Issue / Wiki 评论</div>
+      <div>反馈：新建 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">Issue</a> · Wiki 评论</div>
     </footer>
   </div>
 
   <script>
-    // Gitee Issues + PR 评分制排行榜
+    // Gitee Issues + PR 评分制排行榜（紧凑表格版）
     (async function () {
-      const list = document.getElementById('lb-list');
-      if (!list) return;
+      const root = document.getElementById('lb-table');
+      if (!root) return;
       const REPO = 'kky3rpg/y3-resource-hub';
       const API = 'https://gitee.com/api/v5/repos/' + REPO;
 
-      async function fetchAllPages(path) {
+      async function fetchAll(path) {
         const all = [];
         let page = 1;
         while (true) {
-          const url = `${API}/${path}?state=all&per_page=100&page=${page}`;
-          const res = await fetch(url);
+          const res = await fetch(`${API}/${path}?state=all&per_page=100&page=${page}`);
           if (!res.ok) break;
           const arr = await res.json();
           if (!Array.isArray(arr) || arr.length === 0) break;
@@ -197,69 +197,60 @@
         }
         return all;
       }
-
-      function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
       function scoreOf(item, isPR) {
         const labels = (item.labels || []).map(l => (l.name || '').toLowerCase());
-        let s = isPR ? 15 : 5; // 基础分
+        let s = isPR ? 15 : 5;
         if (labels.includes('已收录')) s += 10;
         if (labels.includes('教程踩坑')) s += 5;
         if (labels.some(l => ['mcp', 'skill', '地图案例'].includes(l))) s += 3;
         return s;
       }
       function avatarOf(u) {
-        return (u && u.avatar_url) || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23222%22/><text x=%2216%22 y=%2221%22 text-anchor=%22middle%22 font-size=%2214%22 fill=%22%23fff%22>?</text></svg>';
+        return (u && u.avatar_url) || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%2212%22 fill=%22%23222%22/></svg>';
       }
+      function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
       try {
-        const [issues, prs] = await Promise.all([
-          fetchAllPages('issues').catch(() => []),
-          fetchAllPages('pulls').catch(() => [])
-        ]);
-
-        const scoreMap = new Map(); // login -> { score, count, name, avatar }
-        function add(login, name, avatar, delta) {
-          if (!login) return;
-          const cur = scoreMap.get(login) || { login, name, avatar, score: 0, items: 0 };
-          cur.score += delta;
-          cur.items += 1;
-          if (!cur.name) cur.name = name;
-          if (!cur.avatar) cur.avatar = avatar;
-          scoreMap.set(login, cur);
+        const [issues, prs] = await Promise.all([fetchAll('issues').catch(() => []), fetchAll('pulls').catch(() => [])]);
+        const map = new Map();
+        function add(u, delta) {
+          if (!u || !u.login) return;
+          const c = map.get(u.login) || { login: u.login, name: u.name, avatar: avatarOf(u), score: 0, items: 0 };
+          c.score += delta; c.items += 1;
+          if (!c.name) c.name = u.name;
+          if (!c.avatar) c.avatar = avatarOf(u);
+          map.set(u.login, c);
         }
-
-        issues.forEach(it => {
-          if (!it.user) return;
-          add(it.user.login, it.user.name, avatarOf(it.user), scoreOf(it, false));
-        });
+        issues.forEach(it => add(it.user, scoreOf(it, false)));
         prs.forEach(pr => {
-          if (!pr.user) return;
-          // 只计合并 + 打开的 PR（避免被拒稿件）
           const merged = pr.merged === true || pr.state === 'merged';
           const closed = pr.state === 'closed' && !merged;
           if (closed) return;
-          add(pr.user.login, pr.user.name, avatarOf(pr.user), scoreOf(pr, true));
+          add(pr.user, scoreOf(pr, true));
         });
+        const list = Array.from(map.values()).sort((a, b) => b.score - a.score || b.items - a.items).slice(0, 10);
 
-        const arr = Array.from(scoreMap.values()).sort((a, b) => b.score - a.score || b.items - a.items).slice(0, 10);
-
-        if (arr.length === 0) {
-          list.innerHTML = '<li class="lb-empty">暂无贡献数据 · 欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">提交第一个 Issue 投稿</a> 冲榜</li>';
+        if (list.length === 0) {
+          root.innerHTML = '<div class="lb-empty">暂无贡献数据 · 欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">提交第一个 Issue</a> 冲榜</div>';
           return;
         }
-
-        list.innerHTML = arr.map((c, i) => `
-          <li class="lb-row">
-            <div class="lb-rank">#${i + 1}</div>
-            <div class="lb-user">
-              <img src="${c.avatar}" alt="${escapeHtml(c.login)}" />
-              <span class="lb-name">${escapeHtml(c.name || c.login)}</span>
+        const max = list[0].score || 1;
+        root.innerHTML = list.map((c, i) => {
+          const pct = Math.max(6, Math.round((c.score / max) * 100));
+          return `
+            <div class="lb-row top${i+1}">
+              <div class="lb-rank">#${i + 1}</div>
+              <div class="lb-name">
+                <a href="https://gitee.com/${escapeHtml(c.login)}" target="_blank" rel="noopener">${escapeHtml(c.name || c.login)}</a>
+                <span class="lb-handle">@${escapeHtml(c.login)}</span>
+              </div>
+              <div class="lb-bar-cell"><div class="lb-bar"><span style="width:${pct}%"></span></div></div>
+              <div class="lb-score">${c.score} 分</div>
             </div>
-            <div class="lb-count">${c.score} 分 · ${c.items} 项</div>
-          </li>
-        `).join('');
+          `;
+        }).join('');
       } catch (err) {
-        list.innerHTML = '<li class="lb-empty">加载失败，请稍后再试。<br/>可以到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> 查看贡献者。</li>';
+        root.innerHTML = '<div class="lb-empty">加载失败，请稍后再试。<br/>可以到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> 查看贡献者。</div>';
       }
     })();
   </script>
