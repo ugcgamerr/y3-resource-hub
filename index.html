@@ -8,7 +8,6 @@
   <style>
     :root {
       --bg: #0b0d10;
-      --bg-soft: #0e1318;
       --panel: #141a21;
       --line: #1f2630;
       --line-soft: #1a2128;
@@ -24,26 +23,33 @@
     a { color: var(--brand); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .container { max-width: 1320px; margin: 0 auto; padding: 0 48px; }
     @media (max-width: 720px) { .container { padding: 0 22px; } }
 
-    /* === Hero === */
+    /* === HERO：左右大分布 === */
     .hero {
-      padding: 96px 0 56px;
+      min-height: 100vh;
+      padding: 88px 0 64px;
       background:
-          radial-gradient(1200px 600px at 12% -10%, rgba(79,140,255,.18), transparent 60%),
-          radial-gradient(900px 500px at 100% 0%, rgba(118,224,194,.10), transparent 60%);
+          radial-gradient(1100px 700px at 8% 0%, rgba(79,140,255,.20), transparent 60%),
+          radial-gradient(900px 600px at 100% 30%, rgba(118,224,194,.12), transparent 60%);
       border-bottom: 1px solid var(--line-soft);
-    }
-    .hero .grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 60px;
+      display: flex;
       align-items: center;
     }
-    @media (max-width: 920px) {
-      .hero .grid { grid-template-columns: 1fr; gap: 36px; }
+    .hero .layout {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 80px;
+      align-items: stretch;
+      width: 100%;
     }
+    @media (max-width: 1000px) {
+      .hero .layout { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* LEFT */
+    .hero-left { display: flex; flex-direction: column; justify-content: center; }
 
     .pill {
       display: inline-block;
@@ -54,49 +60,57 @@
       font-size: 13px;
       background: rgba(255,255,255,.02);
       letter-spacing: 0.02em;
+      width: max-content;
     }
     h1 {
-      font-size: clamp(44px, 6vw, 84px);
-      line-height: 1.05;
-      margin: 22px 0 14px;
-      letter-spacing: -0.02em;
+      font-size: clamp(48px, 6.5vw, 96px);
+      line-height: 1.02;
+      margin: 24px 0 18px;
+      letter-spacing: -0.025em;
       font-weight: 700;
     }
     .sub {
       color: var(--text);
-      font-size: clamp(20px, 1.6vw, 26px);
-      line-height: 1.4;
-      margin: 0 0 14px;
+      font-size: clamp(20px, 1.8vw, 28px);
+      line-height: 1.35;
+      margin: 0 0 8px;
       font-weight: 500;
     }
-    .lead {
+    .desc {
       color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-      max-width: 560px;
-      margin: 24px 0 0;
+      font-size: 17px;
+      line-height: 1.65;
+      margin: 22px 0 0;
+      max-width: 540px;
+    }
+    .desc code {
+      background: rgba(255,255,255,.05);
+      padding: 2px 7px;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+      font-size: 14px;
     }
 
     .actions {
       display: flex;
-      gap: 12px;
-      margin: 36px 0 0;
+      gap: 14px;
+      margin: 40px 0 0;
       flex-wrap: wrap;
     }
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 14px 22px;
+      padding: 15px 26px;
       border-radius: 12px;
       font-weight: 600;
       font-size: 16px;
-      transition: transform .12s ease, background .12s ease;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease;
     }
     .btn-primary {
       background: var(--brand);
       color: #fff;
-      box-shadow: 0 6px 24px -8px rgba(79,140,255,.55);
+      box-shadow: 0 8px 28px -10px rgba(79,140,255,.6);
     }
     .btn-primary:hover { background: #3f7af0; text-decoration: none; transform: translateY(-1px); }
     .btn-secondary {
@@ -106,73 +120,112 @@
     }
     .btn-secondary:hover { border-color: var(--brand); text-decoration: none; transform: translateY(-1px); }
 
-    /* === Right side stats === */
-    .hero-side {
-      border-left: 1px solid var(--line-soft);
-      padding-left: 40px;
-    }
-    @media (max-width: 920px) { .hero-side { border-left: none; padding-left: 0; border-top: 1px solid var(--line-soft); padding-top: 24px; } }
-    .stats { display: grid; gap: 14px; }
-    .stat {
+    /* RIGHT：可滚动 AI 大神榜 */
+    .hero-right {
       display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      padding: 16px 18px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.02);
+      flex-direction: column;
+      min-height: 460px;
     }
-    .stat .k { color: var(--muted); font-size: 14px; }
-    .stat .v { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); }
-
-    /* === Section / LB === */
-    section.lb {
-      padding: 72px 0;
-      border-top: 1px solid var(--line-soft);
+    .lb-card {
+      flex: 1;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.005));
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
     .lb-head {
+      padding: 22px 22px 14px;
+      border-bottom: 1px solid var(--line-soft);
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 12px;
+      flex-shrink: 0;
     }
-    .lb-title { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; }
-    .lb-meta { font-size: 14px; color: var(--muted); }
+    .lb-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+    .lb-meta { font-size: 13px; color: var(--muted); }
     .lb-meta a { color: var(--muted); }
 
-    .lb-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    .lb-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
     }
-    @media (max-width: 720px) { .lb-grid { grid-template-columns: 1fr; } }
+    .lb-list::-webkit-scrollbar { width: 6px; }
+    .lb-list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+    .lb-list::-webkit-scrollbar-track { background: transparent; }
+
     .lb-row {
       display: grid;
-      grid-template-columns: 48px 1fr 110px;
+      grid-template-columns: 44px 1fr 88px;
       align-items: center;
-      gap: 16px;
-      padding: 14px 18px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.015);
-      transition: border-color .12s ease, background .12s ease;
+      gap: 14px;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--line-soft);
+      transition: background .14s ease;
     }
-    .lb-row:hover { border-color: var(--brand); background: rgba(79,140,255,.06); }
-    .lb-rank { font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 18px; text-align: center; }
+    .lb-row:hover { background: rgba(79,140,255,.05); }
+    .lb-row:last-child { border-bottom: none; }
+    .lb-rank {
+      font-weight: 700;
+      color: var(--muted-2);
+      font-variant-numeric: tabular-nums;
+      font-size: 17px;
+      text-align: center;
+    }
     .lb-row.top1 .lb-rank { color: #f5c84c; }
     .lb-row.top2 .lb-rank { color: #c0c8d2; }
     .lb-row.top3 .lb-rank { color: #c98a5b; }
-    .lb-name { font-weight: 600; }
+
+    .lb-avatar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .lb-avatar img {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--line-soft);
+    }
+    .lb-name {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
     .lb-name a { color: var(--text); }
     .lb-name a:hover { color: var(--brand); text-decoration: none; }
-    .lb-handle { color: var(--muted-2); font-size: 13px; margin-left: 8px; font-variant-numeric: tabular-nums; }
-    .lb-score { color: var(--brand-2); font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; font-size: 17px; }
-    .lb-empty { padding: 22px 0; color: var(--muted); font-size: 15px; }
+    .lb-handle {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+
+    .lb-score {
+      color: var(--brand-2);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      text-align: right;
+      font-size: 16px;
+    }
+    .lb-empty {
+      padding: 60px 24px;
+      color: var(--muted);
+      font-size: 14.5px;
+      text-align: center;
+      line-height: 1.7;
+    }
 
     /* === Footer === */
     footer.foot {
-      padding: 32px 0 48px;
+      padding: 28px 0 44px;
       border-top: 1px solid var(--line-soft);
       color: var(--muted);
       font-size: 13.5px;
@@ -184,7 +237,11 @@
     footer a { color: var(--muted); }
     footer a:hover { color: var(--brand); }
 
-    code { background: rgba(255,255,255,.05); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); font-size: 14px; }
+    @media (max-width: 720px) {
+      h1 { font-size: 38px; }
+      .sub { font-size: 18px; }
+      .hero { min-height: auto; padding: 56px 0 32px; }
+    }
   </style>
 </head>
 <body>
@@ -192,8 +249,9 @@
   <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <div class="grid">
-        <div>
+      <div class="layout">
+        <!-- LEFT -->
+        <div class="hero-left">
           <span class="pill">资源社区 · Y3 / AI</span>
           <h1>Y3 Resource Hub</h1>
           <p class="sub">社区目标：AI 做图不再是梦想</p>
@@ -201,35 +259,27 @@
             <a class="btn btn-primary" href="https://163.com/y3/docs/guides/Editor/AI_Development/AssistantDevelopment" target="_blank" rel="noopener">AI 开发者文档 →</a>
             <a class="btn btn-secondary" href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">社区 Skill →</a>
           </div>
-          <p class="lead">
+          <p class="desc">
             让作者省事地分享，让读者省事地找到。
             <br />不会 Git 也能投稿：点 <code>社区 Skill</code>，填表就行。
           </p>
         </div>
-        <aside class="hero-side">
-          <div class="stats">
-            <div class="stat"><span class="k">仓库地址</span><span class="v">gitee.com/kky3rpg/y3-resource-hub</span></div>
-            <div class="stat"><span class="k">入口镜像</span><span class="v">ugcgamerr.github.io/y3-resource-hub</span></div>
-            <div class="stat"><span class="k">投稿入口</span><span class="v">Issue 表单 · 6 项</span></div>
-            <div class="stat"><span class="k">排行口径</span><span class="v">Gitee Issue / PR 评分</span></div>
+
+        <!-- RIGHT：AI 大神 Top10（可滚动） -->
+        <aside class="hero-right">
+          <div class="lb-card">
+            <div class="lb-head">
+              <div class="lb-title">🏆 AI 大神 · Top 10</div>
+              <div class="lb-meta">Gitee Issue / PR 评分 · <a href="leaderboard.html">完整榜单 →</a></div>
+            </div>
+            <div class="lb-list" id="lb-list">
+              <div class="lb-empty">正在加载贡献数据…<br/>欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">提交 Issue</a> 冲榜</div>
+            </div>
           </div>
         </aside>
       </div>
     </div>
   </header>
-
-  <!-- LEADERBOARD -->
-  <section class="lb">
-    <div class="container">
-      <div class="lb-head">
-        <div class="lb-title">🏆 AI 大神 · Top 10</div>
-        <div class="lb-meta">Gitee Issues / PR 贡献评分 · <a href="leaderboard.html">完整榜单 →</a></div>
-      </div>
-      <div class="lb-grid" id="lb-grid">
-        <div class="lb-empty">正在加载贡献数据…</div>
-      </div>
-    </div>
-  </section>
 
   <footer class="foot container">
     <div>Y3 Resource Hub · 社区驱动</div>
@@ -237,9 +287,9 @@
   </footer>
 
   <script>
-    // Gitee Issues + PR 评分制排行榜
+    // Gitee Issues + PR 评分制排行榜（Top10 + 可滚动）
     (async function () {
-      const root = document.getElementById('lb-grid');
+      const root = document.getElementById('lb-list');
       if (!root) return;
       const REPO = 'kky3rpg/y3-resource-hub';
       const API = 'https://gitee.com/api/v5/repos/' + REPO;
@@ -266,6 +316,9 @@
         if (labels.some(l => ['mcp', 'skill', '地图案例'].includes(l))) s += 3;
         return s;
       }
+      function avatarOf(u) {
+        return (u && u.avatar_url) || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%2212%22 fill=%22%23222%22/></svg>';
+      }
       function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
       try {
@@ -273,7 +326,7 @@
         const map = new Map();
         function add(u, delta) {
           if (!u || !u.login) return;
-          const c = map.get(u.login) || { login: u.login, name: u.name, score: 0, items: 0 };
+          const c = map.get(u.login) || { login: u.login, name: u.name, avatar: avatarOf(u), score: 0, items: 0 };
           c.score += delta; c.items += 1;
           if (!c.name) c.name = u.name;
           map.set(u.login, c);
@@ -294,9 +347,12 @@
         root.innerHTML = list.map((c, i) => `
           <div class="lb-row top${i+1}">
             <div class="lb-rank">#${i + 1}</div>
-            <div class="lb-name">
-              <a href="https://gitee.com/${escapeHtml(c.login)}" target="_blank" rel="noopener">${escapeHtml(c.name || c.login)}</a>
-              <span class="lb-handle">@${escapeHtml(c.login)} · ${c.items} 项</span>
+            <div class="lb-avatar">
+              <img src="${c.avatar}" alt="${escapeHtml(c.login)}" />
+              <div style="min-width:0">
+                <div class="lb-name"><a href="https://gitee.com/${escapeHtml(c.login)}" target="_blank" rel="noopener">${escapeHtml(c.name || c.login)}</a></div>
+                <div class="lb-handle">@${escapeHtml(c.login)} · ${c.items} 项</div>
+              </div>
             </div>
             <div class="lb-score">${c.score} 分</div>
           </div>
