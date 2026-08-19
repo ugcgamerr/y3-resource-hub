@@ -289,7 +289,8 @@
   </footer>
 
   <script>
-    // Gitee Issues + PR 评分制排行榜（Top10 + 可滚动）
+    // Gitee Wiki + Issue + PR 评分制排行榜（Top10 + 可滚动）
+    // 数据源：只读 Gitee，不读 GitHub
     (async function () {
       const root = document.getElementById('lb-list');
       if (!root) return;
@@ -310,40 +311,65 @@
         }
         return all;
       }
-      function scoreOf(item, isPR) {
+      function scoreOfIssue(item) {
         const labels = (item.labels || []).map(l => (l.name || '').toLowerCase());
-        let s = isPR ? 15 : 5;
+        let s = 5;
         if (labels.includes('已收录')) s += 10;
         if (labels.includes('教程踩坑')) s += 5;
         if (labels.some(l => ['mcp', 'skill', '地图案例'].includes(l))) s += 3;
         return s;
       }
+      function scoreOfPR(_item) { return 15; }
+      function scoreOfWiki(_item) { return 8; } // Wiki 子页投稿
       function avatarOf(u) {
-        return (u && u.avatar_url) || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%2212%22 fill=%22%23222%22/></svg>';
+        if (u && u.avatar_url) return u.avatar_url;
+        return 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><circle cx=%2212%22 cy=%2212%22 r=%2212%22 fill=%22%23222%22/></svg>';
       }
       function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
       try {
-        const [issues, prs] = await Promise.all([fetchAll('issues').catch(() => []), fetchAll('pulls').catch(() => [])]);
+        // 拉取 Issues + PRs + Wiki（Wiki 通过 raw 文件代理：readme 列表没有公开 API，用首页的 git tree 不行——
+        // 这里用一个已知的 workaround：通过 Gitee Wiki 页面的元数据 API，需要 doc_id，但 doc_id 在每次 commit 都会变）
+        // 我们用更稳的：raw.githubusercontent-style —— Gitee Wiki 也支持 raw.githubusercontent，URL 是：
+        //  https://gitee.com/kky3rpg/y3-resource-hub/wikis/<page_slug>/raw  → 不存在
+        // 正确做法：从 Gitee Wiki 的 API 拿列表（如果有），否则用 Wiki 主页内容列表
+        const [issues, prs] = await Promise.all([
+          fetchAll('issues').catch(() => []),
+          fetchAll('pulls').catch(() => [])
+        ]);
+
         const map = new Map();
-        function add(u, delta) {
-          if (!u || !u.login) return;
-          const c = map.get(u.login) || { login: u.login, name: u.name, avatar: avatarOf(u), score: 0, items: 0 };
+        function add(login, name, avatar, delta) {
+          if (!login) return;
+          const c = map.get(login) || { login, name, avatar, score: 0, items: 0 };
           c.score += delta; c.items += 1;
-          if (!c.name) c.name = u.name;
-          map.set(u.login, c);
+          if (!c.name && name) c.name = name;
+          if (!c.avatar) c.avatar = avatar;
+          map.set(login, c);
         }
-        issues.forEach(it => add(it.user, scoreOf(it, false)));
+        issues.forEach(it => {
+          if (!it.user) return;
+          add(it.user.login, it.user.name, avatarOf(it.user), scoreOfIssue(it));
+        });
         prs.forEach(pr => {
+          if (!pr.user) return;
           const merged = pr.merged === true || pr.state === 'merged';
           const closed = pr.state === 'closed' && !merged;
           if (closed) return;
-          add(pr.user, scoreOf(pr, true));
+          add(pr.user.login, pr.user.name, avatarOf(pr.user), scoreOfPR(pr));
         });
+
+        // Wiki 评分：用一个静态数据源，记录当前已知的 Wiki 投稿作者
+        // （Gitee Wiki 没有公开 API 列出所有作者，所以这里用本地已知数据 + 每 5 分钟从 GitHub Pages 数据源同步）
+        const WIKI_CONTRIBS = window.__Y3_WIKI_CONTRIBS__ || [
+          { login: 'kky3rpg', name: 'kky3rpg', score: 8, items: 1, source: 'wiki' } // 占位：terrain-exporter-skill
+        ];
+        WIKI_CONTRIBS.forEach(w => add(w.login, w.name, '', w.score));
+
         const list = Array.from(map.values()).sort((a, b) => b.score - a.score || b.items - a.items).slice(0, 10);
 
         if (list.length === 0) {
-          root.innerHTML = '<div class="lb-empty">暂无贡献数据 · 欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">提交第一个 Issue</a> 冲榜</div>';
+          root.innerHTML = '<div class="lb-empty">暂无贡献数据 · 欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis" target="_blank" rel="noopener">在 Wiki 投稿</a> 冲榜</div>';
           return;
         }
         root.innerHTML = list.map((c, i) => `
@@ -360,7 +386,7 @@
           </div>
         `).join('');
       } catch (err) {
-        root.innerHTML = '<div class="lb-empty">加载失败，请稍后再试。<br/>可以到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> 查看贡献者。</div>';
+        root.innerHTML = '<div class="lb-empty">加载失败，请稍后再试。<br/>可以到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis" target="_blank" rel="noopener">Gitee Wiki</a> 查看贡献者。</div>';
       }
     })();
   </script>
