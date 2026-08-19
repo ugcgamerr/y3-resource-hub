@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Y3 Resource Hub · 社区入口</title>
+  <meta name="description" content="面向 Y3 编辑器 / AI 开发的资源社区入口：AI 开发者文档、社区 Skill / MCP / 教程。" />
+  <link rel="icon" href="https://gitee.com/favicon.ico" />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #11161b;
+      --line: #1f2630;
+      --text: #e6edf3;
+      --muted: #9aa6b2;
+      --brand: #4f8cff;
+      --brand-2: #7aa2ff;
+      --code: #0d1117;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; }
+    a { color: var(--brand-2); text-decoration: none; }
+    a:hover { color: var(--brand); }
+
+    .wrap { max-width: 980px; margin: 0 auto; padding: 56px 24px 96px; }
+
+    header.hero { text-align: center; padding: 32px 0 40px; }
+    .pill {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      background: var(--panel);
+    }
+    h1.title { font-size: 44px; line-height: 1.15; margin: 18px 0 10px; letter-spacing: -0.02em; }
+    p.lead { color: var(--muted); font-size: 17px; line-height: 1.6; margin: 0 auto; max-width: 720px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin: 36px 0 28px;
+    }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px 22px 20px;
+      transition: transform .15s ease, border-color .15s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover { transform: translateY(-2px); border-color: var(--brand); }
+    .card h2 { margin: 0 0 8px; font-size: 22px; letter-spacing: -0.01em; }
+    .card p { color: var(--muted); margin: 0 0 16px; font-size: 14.5px; line-height: 1.6; }
+    .card .cta {
+      margin-top: auto;
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--brand);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .card .cta:hover { background: #3f7af0; color: #fff; }
+    .card .meta { color: var(--muted); font-size: 12.5px; margin-top: 10px; }
+
+    section.steps { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px 24px; margin-top: 18px; }
+    section.steps h3 { margin: 0 0 12px; font-size: 18px; }
+    ol.steps-list { margin: 0; padding-left: 18px; color: var(--text); line-height: 1.7; }
+    ol.steps-list li { margin-bottom: 6px; }
+
+    section.alt { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    @media (max-width: 720px) { section.alt { grid-template-columns: 1fr; } }
+    .alt a {
+      display: block;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: var(--text);
+    }
+    .alt a:hover { border-color: var(--brand); }
+    .alt .lbl { color: var(--muted); font-size: 12.5px; }
+    .alt .val { font-weight: 600; margin-top: 2px; }
+
+    footer.foot {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: space-between;
+    }
+    code { background: var(--code); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); font-size: 12.5px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <span class="pill">面向 Y3 编辑器 / AI 开发者的资源社区</span>
+      <h1 class="title">Y3 Resource Hub</h1>
+      <p class="lead">
+        你的目标只有一个：<b>让作者省事地分享，让读者省事地找到</b>。<br />
+        不会 Git 也能投稿：点 <code>社区 Skill</code>，填表就行。
+      </p>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>📘 AI 开发者文档</h2>
+        <p>编辑器接入、AI 接入、地图开发流程、Skill 编写规范、踩坑记录——开发 Y3 AI 项目时需要的全部文档都在这里。</p>
+        <a class="cta" href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/README.md" target="_blank" rel="noopener">查看文档 →</a>
+        <div class="meta">面向开发者 · 持续更新</div>
+      </div>
+      <div class="card">
+        <h2>🧩 社区 Skill</h2>
+        <p>浏览社区贡献的 Skill / MCP / 教程 / 地图案例。找不到想要的？点 “我要投稿”，不用学 Git。</p>
+        <a class="cta" href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">进入社区资源中心 →</a>
+        <div class="meta">收录即上架 · 小白友好</div>
+      </div>
+    </div>
+
+    <section class="steps">
+      <h3>30 秒完成第一次投稿</h3>
+      <ol class="steps-list">
+        <li>先看 <a href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">投稿规则</a>（30 秒就能看完）。</li>
+        <li>打开 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">Issue 投稿入口</a>，按表单填 6 项即可。</li>
+        <li>维护者审核通过后会自动收录到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home" target="_blank" rel="noopener">资源中心</a>，并给你回复。</li>
+      </ol>
+    </section>
+
+    <section class="alt">
+      <a href="https://gitee.com/kky3rpg/y3-resource-hub/blob/main/INDEX.md" target="_blank" rel="noopener">
+        <div class="lbl">📑 索引页</div>
+        <div class="val">README 索引（按分类整理）</div>
+      </a>
+      <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">
+        <div class="lbl">📮 投稿</div>
+        <div class="val">填表投稿（Issue 表单）</div>
+      </a>
+      <a href="https://github.com/kky3rpg/y3-resource-hub" target="_blank" rel="noopener">
+        <div class="lbl">🌐 镜像</div>
+        <div class="val">GitHub 镜像仓库（如有）</div>
+      </a>
+      <a href="https://gitee.com/kky3rpg/y3-resource-hub/wikis/投稿规则" target="_blank" rel="noopener">
+        <div class="lbl">📘 规则</div>
+        <div class="val">Wiki 投稿规则页</div>
+      </a>
+    </section>
+
+    <footer class="foot">
+      <div>Y3 Resource Hub · 社区驱动</div>
+      <div>反馈：新建 Issue / Wiki 评论</div>
+    </footer>
+  </div>
+</body>
+</html>

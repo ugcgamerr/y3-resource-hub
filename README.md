@@ -1,71 +1,85 @@
-# Y3 MCP / Skill 资源中心
+# Y3 Resource Hub
 
-这是一个给 Y3 社区使用的资源分享仓库，专门收录：
-- MCP 服务
-- Skill
-- 地图案例 / 示例工程
-- 教程 / 踩坑记录
+> 面向 **Y3 编辑器 / AI 开发者** 的资源社区入口。
+> 让作者省事地分享，让读者省事地找到。
 
-这里**不要求作者会 Git、会写代码、会提 PR**。  
-只要你能把资源说明清楚，就可以通过 `Issue 表单` 投稿，维护者会帮你整理入库。
+[![Gitee](https://img.shields.io/badge/Gitee-kky3rpg%2Fy3--resource--hub-blue)](https://gitee.com/kky3rpg/y3-resource-hub)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-## 先看这里
+---
 
-- 看资源：`INDEX.md`
-- 想投稿：`Issues` -> `新建 Issue` -> `资源投稿（表单）`
-- 看规则：`CONTRIBUTING.md`
-- 维护者入库：`maintainers/INTAKE_GUIDE.md`
+## 🎯 这个仓库做什么
 
-## 这个仓库适合谁
+Y3 编辑器正在接入 AI / MCP / Skill，开发过程中会产生大量 **文档、Skill、教程、地图案例**。我们想把这些资源“集中起来、可被检索、可持续更新”，而不是散落在群里、论坛里、收藏夹里。
 
-- 做了一个能用的小工具，想分享给别人
-- 写了一篇教程，想长期沉淀，不想让内容沉底
-- 做了一个 MCP / Skill / 地图案例，想让别人能方便找到
-- 不是专业开发者，只会一点技术，但愿意把经验分享出来
+所以这里只有一个规则：
 
-## 投稿有多简单
+> **让作者省事地分享，让读者省事地找到。**
 
-1. 打开本仓库的 `Issues`
-2. 点击「新建 Issue」
-3. 选择 `资源投稿（表单）`
-4. 填 4 类核心信息：
-   - 这是什么
-   - 有什么用
-   - 怎么安装/怎么用
-   - 链接或附件在哪里
-5. 提交完成
+---
 
-后面的结构化整理、目录归类、索引展示，都由维护者处理。
+## 🚀 两个入口（一切从这里开始）
 
-## 投稿前最好准备什么
+| 入口 | 用途 | 链接 |
+| --- | --- | --- |
+| 📘 **AI 开发者文档** | 编辑器接入、AI 接入、Skill 编写规范、踩坑记录 | [README.md](./README.md) / [docs/](./docs/) |
+| 🧩 **社区 Skill** | 浏览 / 投稿 Skill、MCP、地图案例、教程 | [Wiki 资源中心](https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home) |
 
-不需要很专业，但最好有这些内容：
-- 资源名称
-- 一句话说明用途
-- 1 到 3 步使用方法
-- 适配版本
-- 下载地址 / 仓库地址 / 视频 / 截图
-- 风险说明  
-  例如：是否联网、是否执行命令、是否会写本地文件、是否需要 Token
+> 不在 Gitee？这里也有 [GitHub 镜像](https://github.com/kky3rpg/y3-resource-hub)（如果有）。
 
-## 资源收录范围
+🌐 **社区入口页（在线浏览）：** [https://kky3rpg.gitee.io/y3-resource-hub](https://kky3rpg.gitee.io/y3-resource-hub)（部署完成后生效）
 
-- `entries/mcp/`：MCP 服务、工具端、能力端接入
-- `entries/skills/`：Skill、工作流、提示词包、辅助脚本
-- `entries/examples/`：地图案例、示例工程、演示项目
-- `entries/tutorials/`：教程、经验总结、踩坑记录、最佳实践
+---
 
-## 为什么不用论坛
+## ✨ 30 秒完成第一次投稿
 
-论坛发帖很容易，但也很容易沉底。  
-这个仓库采用“`Issue 投稿 + 维护者入库 + 索引展示`”的方式，目的是让分享内容更容易被找到、被复用、被长期保存。
+1. 先花 30 秒看 [投稿规则 CONTRIBUTING.md](./CONTRIBUTING.md)。
+2. 打开 [Issue 投稿入口](https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml)，按表单填 6 项即可。
+3. 维护者审核通过后，自动收录到 [Wiki 资源中心](https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home)，并给你回复。
 
-## 维护者怎么处理投稿
+---
 
-1. 在 Issue 中查看投稿内容是否完整
-2. 按分类整理到 `entries/<分类>/<资源名>/`
-3. 补齐条目 `README.md` 和 `meta.yml`
-4. 更新 `INDEX.md`
-5. 回到原 Issue，贴上已收录链接并关闭
+## 🗂 仓库结构
 
-更详细步骤见：`maintainers/INTAKE_GUIDE.md`
+```
+y3-resource-hub/
+├─ README.md                # 你正在看（入口文档）
+├─ CONTRIBUTING.md          # 投稿规则（小白友好）
+├─ INDEX.md                 # 索引页（按分类整理的资源）
+├─ PAGES.md                 # Gitee Pages 部署说明
+├─ LICENSE
+├─ index.html               # 社区入口页（风格：deepseek.com/harness）
+├─ wiki/                    # Wiki 三页草稿（Home / 资源索引 / 投稿规则）
+├─ .gitee/ISSUE_TEMPLATE/   # Gitee Issue 表单模板
+│  ├─ config.yml
+│  ├─ resource_submit.yml   # 资源投稿表单（推荐入口）
+│  └─ resource_update.yml   # 已收录资源更新/修正
+├─ entries/                 # 资源条目存放区
+│  ├─ _template/            # 条目模板
+│  ├─ skills/               # Skill 类资源
+│  ├─ mcp/                  # MCP 服务类资源
+│  ├─ tutorials/            # 教程 / 踩坑
+│  └─ examples/             # 地图案例
+└─ maintainers/INTAKE_GUIDE.md  # 维护者操作手册
+```
+
+---
+
+## 🧭 三种浏览方式
+
+- **看资源（小白首选）**：[Wiki 资源中心](https://gitee.com/kky3rpg/y3-resource-hub/wikis/Home)
+- **索引检索**：[INDEX.md](./INDEX.md)
+- **源码浏览**：直接看 `entries/<分类>/` 目录
+
+---
+
+## 📜 许可证
+
+除非另有说明，仓库代码采用 [MIT](./LICENSE) 协议。  
+文档 / 教程默认采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)（提交即视为同意）。
+
+---
+
+## 💬 反馈与建议
+
+直接在 [Issues](https://gitee.com/kky3rpg/y3-resource-hub/issues) 提，或在 Wiki 页面下留言。
