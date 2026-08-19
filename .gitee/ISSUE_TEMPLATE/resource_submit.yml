@@ -12,13 +12,12 @@ body:
     id: category
     attributes:
       label: 资源分类（必选）
+      required: true
       options:
         - MCP 服务
         - Skill
         - 地图案例 / 示例
         - 教程 / 踩坑
-    validations:
-      required: true
 
   - type: input
     id: name
@@ -26,7 +25,6 @@ body:
       label: 资源名称（必填）
       description: 你希望大家怎么称呼这个资源？
       placeholder: 例如：地形导出 Skill / pathfinding-mcp / XXX 教程
-    validations:
       required: true
 
   - type: textarea
@@ -35,7 +33,6 @@ body:
       label: 一句话用途（必填）
       description: 这个资源解决什么问题？适合谁用？
       placeholder: 例如：用 AI 自动生成地图任务脚本并导入编辑器
-    validations:
       required: true
 
   - type: textarea
@@ -47,7 +44,6 @@ body:
         1. ...
         2. ...
         3. ...
-    validations:
       required: true
 
   - type: textarea
@@ -59,7 +55,6 @@ body:
         - 仓库：https://...
         - 下载：https://...
         - 演示视频：https://...
-    validations:
       required: true
 
   - type: input
@@ -68,8 +63,6 @@ body:
       label: 适配版本（建议填写）
       description: 例如 Y3 编辑器版本、依赖的 MCP/模型版本等
       placeholder: 例如：Y3 v0.9.x；需要 Python 3.10；需要某某模型
-    validations:
-      required: false
 
   - type: textarea
     id: risk
@@ -81,8 +74,6 @@ body:
         - 执行命令：是/否（会执行：xxx）
         - 读写文件：是/否（会写入：xxx）
         - 需要密钥：是/否（需要：xxx）
-    validations:
-      required: false
 
   - type: input
     id: author
@@ -90,8 +81,6 @@ body:
       label: 作者署名（可选）
       description: 你希望展示的名字/昵称
       placeholder: 例如：小明 / y3-xxx
-    validations:
-      required: false
 
   - type: input
     id: contact
@@ -99,8 +88,6 @@ body:
       label: 联系方式（可选）
       description: 仅用于维护者在需要补充信息时联系你（例如邮箱/群号/其他）
       placeholder: 例如：xxx@qq.com / 飞书号 / QQ 群
-    validations:
-      required: false
 
   - type: checkboxes
     attributes:
@@ -110,4 +97,3 @@ body:
           required: true
         - label: 我确认我有权分享该内容（或已获得原作者许可）
           required: true
-

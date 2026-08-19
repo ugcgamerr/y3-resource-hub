@@ -14,7 +14,6 @@ body:
       label: 条目链接或路径（必填）
       description: 例如：entries/skills/terrain_exporter 或对应条目页面链接
       placeholder: entries/skills/xxx
-    validations:
       required: true
 
   - type: textarea
@@ -26,7 +25,6 @@ body:
         - 需要把下载链接换成：https://...
         - 新版本增加了：...
         - 原步骤第 2 步不对，应该是：...
-    validations:
       required: true
 
   - type: textarea
@@ -37,22 +35,15 @@ body:
         - 新仓库：https://...
         - 新下载：https://...
         - 新演示视频：https://...
-    validations:
-      required: false
 
   - type: input
     id: compat
     attributes:
       label: 新版本适配信息（可选）
       placeholder: 例如：Y3 v1.0；需要 Python 3.11
-    validations:
-      required: false
 
   - type: input
     id: author
     attributes:
       label: 你的署名（可选）
       placeholder: 例如：小明
-    validations:
-      required: false
-
