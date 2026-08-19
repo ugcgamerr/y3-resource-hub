@@ -158,12 +158,12 @@
 
     <section class="lb" id="leaderboard">
       <h3>🏆 AI 大神排行榜</h3>
-      <div class="lb-sub">基于本项目（GitHub）的贡献量自动排名 · Top 10</div>
+      <div class="lb-sub">基于 Gitee Issues + PR 贡献评分 · Top 10</div>
       <ul class="lb-list" id="lb-list">
-        <li class="lb-empty">正在加载 GitHub 贡献数据…</li>
+        <li class="lb-empty">正在加载 Gitee 贡献数据…</li>
       </ul>
       <div class="lb-foot">
-        <span>数据来源：<a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors</a></span>
+        <span>数据来源：<a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> + <a href="https://gitee.com/kky3rpg/y3-resource-hub/pulls" target="_blank" rel="noopener">PRs</a></span>
         <a href="leaderboard.html" target="_blank" rel="noopener">查看完整榜单 →</a>
       </div>
     </section>
@@ -175,34 +175,93 @@
   </div>
 
   <script>
-    // 轻量 GitHub Contributors API
+    // Gitee Issues + PR 评分制排行榜
     (async function () {
       const list = document.getElementById('lb-list');
       if (!list) return;
-      const repo = 'ugcgamerr/y3-resource-hub';
+      const REPO = 'kky3rpg/y3-resource-hub';
+      const API = 'https://gitee.com/api/v5/repos/' + REPO;
+
+      async function fetchAllPages(path) {
+        const all = [];
+        let page = 1;
+        while (true) {
+          const url = `${API}/${path}?state=all&per_page=100&page=${page}`;
+          const res = await fetch(url);
+          if (!res.ok) break;
+          const arr = await res.json();
+          if (!Array.isArray(arr) || arr.length === 0) break;
+          all.push(...arr);
+          if (arr.length < 100) break;
+          page += 1;
+        }
+        return all;
+      }
+
+      function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+      function scoreOf(item, isPR) {
+        const labels = (item.labels || []).map(l => (l.name || '').toLowerCase());
+        let s = isPR ? 15 : 5; // 基础分
+        if (labels.includes('已收录')) s += 10;
+        if (labels.includes('教程踩坑')) s += 5;
+        if (labels.some(l => ['mcp', 'skill', '地图案例'].includes(l))) s += 3;
+        return s;
+      }
+      function avatarOf(u) {
+        return (u && u.avatar_url) || 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%23222%22/><text x=%2216%22 y=%2221%22 text-anchor=%22middle%22 font-size=%2214%22 fill=%22%23fff%22>?</text></svg>';
+      }
+
       try {
-        const res = await fetch(`https://api.github.com/repos/${repo}/contributors?per_page=10`);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) {
-          list.innerHTML = '<li class="lb-empty">暂无贡献数据，邀请大家来投稿 → <a href="https://github.com/ugcgamerr/y3-resource-hub">参与贡献</a></li>';
+        const [issues, prs] = await Promise.all([
+          fetchAllPages('issues').catch(() => []),
+          fetchAllPages('pulls').catch(() => [])
+        ]);
+
+        const scoreMap = new Map(); // login -> { score, count, name, avatar }
+        function add(login, name, avatar, delta) {
+          if (!login) return;
+          const cur = scoreMap.get(login) || { login, name, avatar, score: 0, items: 0 };
+          cur.score += delta;
+          cur.items += 1;
+          if (!cur.name) cur.name = name;
+          if (!cur.avatar) cur.avatar = avatar;
+          scoreMap.set(login, cur);
+        }
+
+        issues.forEach(it => {
+          if (!it.user) return;
+          add(it.user.login, it.user.name, avatarOf(it.user), scoreOf(it, false));
+        });
+        prs.forEach(pr => {
+          if (!pr.user) return;
+          // 只计合并 + 打开的 PR（避免被拒稿件）
+          const merged = pr.merged === true || pr.state === 'merged';
+          const closed = pr.state === 'closed' && !merged;
+          if (closed) return;
+          add(pr.user.login, pr.user.name, avatarOf(pr.user), scoreOf(pr, true));
+        });
+
+        const arr = Array.from(scoreMap.values()).sort((a, b) => b.score - a.score || b.items - a.items).slice(0, 10);
+
+        if (arr.length === 0) {
+          list.innerHTML = '<li class="lb-empty">暂无贡献数据 · 欢迎 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues/new?template=resource_submit.yml" target="_blank" rel="noopener">提交第一个 Issue 投稿</a> 冲榜</li>';
           return;
         }
-        list.innerHTML = data.map((c, i) => `
+
+        list.innerHTML = arr.map((c, i) => `
           <li class="lb-row">
             <div class="lb-rank">#${i + 1}</div>
             <div class="lb-user">
-              <img src="${c.avatar_url}" alt="${escapeHtml(c.login)}" />
-              <span class="lb-name">${escapeHtml(c.login)}</span>
+              <img src="${c.avatar}" alt="${escapeHtml(c.login)}" />
+              <span class="lb-name">${escapeHtml(c.name || c.login)}</span>
             </div>
-            <div class="lb-count">${c.contributions} 次</div>
+            <div class="lb-count">${c.score} 分 · ${c.items} 项</div>
           </li>
         `).join('');
       } catch (err) {
-        list.innerHTML = '<li class="lb-empty">加载失败，请稍后再试。<br/>你可以直接看 <a href="https://github.com/ugcgamerr/y3-resource-hub/graphs/contributors" target="_blank" rel="noopener">GitHub Contributors 完整图表</a>。</li>';
+        list.innerHTML = '<li class="lb-empty">加载失败，请稍后再试。<br/>可以到 <a href="https://gitee.com/kky3rpg/y3-resource-hub/issues" target="_blank" rel="noopener">Gitee Issues</a> 查看贡献者。</li>';
       }
     })();
-    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
   </script>
 </body>
 </html>
