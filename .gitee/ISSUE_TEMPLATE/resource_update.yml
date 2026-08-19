@@ -14,6 +14,7 @@ body:
       label: 条目链接或路径（必填）
       description: 例如：entries/skills/terrain_exporter 或对应条目页面链接
       placeholder: entries/skills/xxx
+    validations:
       required: true
 
   - type: textarea
@@ -25,6 +26,7 @@ body:
         - 需要把下载链接换成：https://...
         - 新版本增加了：...
         - 原步骤第 2 步不对，应该是：...
+    validations:
       required: true
 
   - type: textarea
